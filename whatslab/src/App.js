@@ -3,16 +3,51 @@ import  './App.css';
 import styled from 'styled-components'
 
 const Container = styled.div`
-  max-width: 600px;
-  height: 100vh;
+  background-color: #d4edbb;
   border: 1px solid black;
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  background-color: #e5ddd5;
+  flex-grow: 1;
+  max-width: 600px;
+  height: 100vh;
 `
 const AllMessagesContainer = styled.div`
-  background-color: #fff;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 25px;
+`
+const FormData = styled.form`
+  display: flex;
+  justify-content: space-between;
+  height: auto;
+  padding: 10px;
+  height: 40px;
+  border-top: solid 1px #92ab79;
+`
+const InputUserName = styled.input`
+width: 15%;
+border-radius: 5px;
+border: none;
+padding: 5px;
+font-size: 1rem;
+outline: none;
+`
+const InputMessageText = styled.input`
+  width: 63%;
+  border: none; 
+  border-radius: 5px;
+  outline: none;
+  font-size: 1rem;
+  padding: 5px;
+`
+const SendButton = styled.button`
+  width: 15%;
+  font-size: 1rem;
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
 `
 
 class App extends React.Component {
@@ -21,9 +56,13 @@ class App extends React.Component {
     return(
       <Container>
         <AllMessagesContainer>
-          
+          olá
         </AllMessagesContainer>
-        
+        <FormData>
+          <InputUserName type="text" placeholder="usuário" />
+          <InputMessageText type="text" placeholder="mensagem" />
+          <SendButton>Enviar</SendButton>
+        </FormData>
       </Container>
     )
   }
