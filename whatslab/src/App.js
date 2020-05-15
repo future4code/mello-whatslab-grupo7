@@ -52,6 +52,19 @@ const SendButton = styled.button`
 
 class App extends React.Component {
 
+  state = {
+    valorUserName: '',
+    valorTextMessage: ''
+  }
+
+  onChangeUser = event => {
+    this.setState ({valorUserName: event.target.value})
+  }
+
+  onChangeText = event => {
+    this.setState ({valorTextMessage: event.target.value})
+  }
+
   render(){
     return(
       <Container>
@@ -59,8 +72,8 @@ class App extends React.Component {
           olá
         </AllMessagesContainer>
         <FormData>
-          <InputUserName type="text" placeholder="usuário" />
-          <InputMessageText type="text" placeholder="mensagem" />
+          <InputUserName type="text" placeholder="usuário" value={this.state.valorUserName} onChange={this.onChangeUser} />
+          <InputMessageText type="text" placeholder="mensagem" value={this.state.valorTextMessage} onChange={this.onChangeText} />
           <SendButton>Enviar</SendButton>
         </FormData>
       </Container>
