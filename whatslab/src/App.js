@@ -51,19 +51,74 @@ const SendButton = styled.button`
   border-radius: 5px;
 `
 
-class App extends React.Component {
 
+
+class App extends React.Component {
+  state = {
+    mensagensDoApp : [
+      {
+        usuario: "",
+        mensagemDoUsuario: ""
+      }
+     ],
+     valorInputUsuario: "",
+     valorInputMensagem: ""
+  };
+
+  adicionaMensagem = (event) => {
+    event.preventDefault()
+    const novaMensagem = {
+
+      usuario: this.state.valorInputUsuario + ": ",
+      mensagemDoUsuario: this.state.valorInputMensagem
+    };
+
+    const novasMensagens = [...this.state.mensagensDoApp, novaMensagem];
+
+    this.setState({ mensagensDoApp: novasMensagens});
+  };
+  
+
+  onChangeInputUsuario = (event) => {
+    this.setState({valorInputUsuario: event.target.value});
+  };
+
+  onChangeInputMensagem = (event) => {
+    this.setState({valorInputMensagem: event.target.value});
+  };
+
+  
   render(){
+    const listaDeMensagens = this.state.mensagensDoApp.map((corpoMensagem) => {
+      return (
+        <p>
+          {corpoMensagem.usuario} 
+          {corpoMensagem.mensagemDoUsuario}
+        </p>
+      );
+  });
+     
     return(
       <Container>
         <AllMessagesContainer>
           olá
+          {listaDeMensagens}
         </AllMessagesContainer>
+        
         <FormData>
-          <InputUserName type="text" placeholder="usuário" />
-          <InputMessageText type="text" placeholder="mensagem" />
-          <SendButton>Enviar</SendButton>
+          <InputUserName 
+          type="text" 
+          placeholder="usuário" 
+          value={this.state.valorInputUsuario}
+          onChange={this.onChangeInputUsuario} />
+          <InputMessageText 
+          type="text" 
+          placeholder="mensagem"
+          value={this.state.valorInputMensagem}
+          onChange={this.onChangeInputMensagem} />
+          <SendButton onClick={this.adicionaMensagem}>Enviar</SendButton>
         </FormData>
+        
         
       </Container>
       
