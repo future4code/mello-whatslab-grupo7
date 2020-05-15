@@ -1,6 +1,7 @@
 import React from 'react';
 import  './App.css';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import Messages from "./components/Messages";
 
 const Container = styled.div`
   background-color: #d4edbb;
@@ -63,7 +64,9 @@ class App extends React.Component {
           <InputMessageText type="text" placeholder="mensagem" />
           <SendButton>Enviar</SendButton>
         </FormData>
+        
       </Container>
+      
     )
   }
 }
