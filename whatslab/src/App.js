@@ -1,10 +1,9 @@
 import React from 'react';
 import  './App.css';
 import styled from 'styled-components';
-import Messages from "./components/Messages";
 
 const Container = styled.div`
-  background-color: #d4edbb;
+  background-color: #c0d7eb;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -50,17 +49,39 @@ const SendButton = styled.button`
   font-weight: bold;
   border-radius: 5px;
 `
+const MsgContainer = styled.div`
+  background-color: ${props =>{
+    if(props.side !== "right"){
+      return "#ffffff"
+    } else {
+      return "#d5f5bc"
+    }
+  }};
+  display: flex;
+  flex-direction: column;
+  max-width: 50%;
+  border-radius: 5px;
+  padding: 10px 10px;
+  margin-bottom: 10px;
+  text-align: ${props => props.side};
+  align-self: ${props => {
+    if(props.side === "right"){
+      return 'flex-end'
+    } else {
+      return 'flex-start'
+    }
+  }};
+`
+const UserContainer = styled.div`
+  margin-bottom: 10px;
+  font-weight: bold;
+`
 
 
 
 class App extends React.Component {
   state = {
-    mensagensDoApp : [
-      {
-        usuario: "",
-        mensagemDoUsuario: ""
-      }
-     ],
+    mensagensDoApp : [],
      valorInputUsuario: "",
      valorInputMensagem: ""
   };
@@ -68,14 +89,14 @@ class App extends React.Component {
   adicionaMensagem = (event) => {
     event.preventDefault()
     const novaMensagem = {
-
-      usuario: this.state.valorInputUsuario + ": ",
+      usuario: this.state.valorInputUsuario,
       mensagemDoUsuario: this.state.valorInputMensagem
     };
 
     const novasMensagens = [...this.state.mensagensDoApp, novaMensagem];
 
-    this.setState({ mensagensDoApp: novasMensagens});
+    this.setState({ mensagensDoApp: novasMensagens, valorInputMensagem: "", valorInputUsuario: ""});
+
   };
   
 
@@ -89,20 +110,36 @@ class App extends React.Component {
 
   
   render(){
-    const listaDeMensagens = this.state.mensagensDoApp.map((corpoMensagem) => {
-      return (
-        <p>
-          {corpoMensagem.usuario} 
-          {corpoMensagem.mensagemDoUsuario}
-        </p>
-      );
-  });
+
+    let side
+    let userStyle
+
+
+    let listaMensagens = this.state.mensagensDoApp.map((msg, idx) => {
+      if(msg.usuario === 'eu'){
+        side = "right"
+        return(
+         <MsgContainer key={idx} side={side}>
+          {msg.mensagemDoUsuario}
+        </MsgContainer>
+        )
+      } else{
+        side = "left"
+        userStyle = <UserContainer>{msg.usuario}</UserContainer>
+        return(
+          <MsgContainer key={idx} side={side}>
+            {userStyle}
+            {msg.mensagemDoUsuario}
+         </MsgContainer>
+        )
+      }
+    })
+ 
      
     return(
       <Container>
         <AllMessagesContainer>
-          olá
-          {listaDeMensagens}
+          {listaMensagens}
         </AllMessagesContainer>
         
         <FormData>
