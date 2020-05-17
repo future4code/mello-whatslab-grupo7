@@ -77,18 +77,17 @@ const UserContainer = styled.div`
   font-weight: bold;
 `
 
-
-
 class App extends React.Component {
   state = {
     mensagensDoApp : [],
-     valorInputUsuario: "",
-     valorInputMensagem: ""
+    valorInputUsuario: "",
+    valorInputMensagem: ""
   };
 
   adicionaMensagem = (event) => {
     event.preventDefault()
     const novaMensagem = {
+      id: Date.now(),
       usuario: this.state.valorInputUsuario,
       mensagemDoUsuario: this.state.valorInputMensagem
     };
@@ -96,8 +95,18 @@ class App extends React.Component {
     const novasMensagens = [...this.state.mensagensDoApp, novaMensagem];
 
     this.setState({ mensagensDoApp: novasMensagens, valorInputMensagem: "", valorInputUsuario: ""});
-
+    console.log(this.state.mensagensDoApp)
   };
+
+  deleteMensagem = (id) => {
+    const newMessageList = this.state.mensagensDoApp.filter((msg) => {
+      return msg.id !== id
+    })
+
+    this.setState({mensagensDoApp: newMessageList})
+
+    console.log(id.target)
+  }
   
 
   onChangeInputUsuario = (event) => {
@@ -115,21 +124,26 @@ class App extends React.Component {
     let userStyle
 
 
-    let listaMensagens = this.state.mensagensDoApp.map((msg, idx) => {
-      if(msg.usuario === 'eu'){
+    let listaMensagens = this.state.mensagensDoApp.map((message) => {
+      
+      const deleteMsg = () => {
+        this.deleteMensagem(message.id)
+      }
+
+      if(message.usuario === 'eu'){
         side = "right"
         return(
-         <MsgContainer key={idx} side={side}>
-          {msg.mensagemDoUsuario}
+         <MsgContainer key={message.id} side={side} onDoubleClick={deleteMsg}>
+          {message.mensagemDoUsuario}
         </MsgContainer>
         )
       } else{
         side = "left"
-        userStyle = <UserContainer>{msg.usuario}</UserContainer>
+        userStyle = <UserContainer>{message.usuario}</UserContainer>
         return(
-          <MsgContainer key={idx} side={side}>
+          <MsgContainer key={message.id} side={side} onDoubleClick={deleteMsg}>
             {userStyle}
-            {msg.mensagemDoUsuario}
+            {message.mensagemDoUsuario}
          </MsgContainer>
         )
       }
